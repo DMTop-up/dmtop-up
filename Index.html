@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="ht" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DM Top-up — eFootball, FC Mobile & Call of Duty Mobile</title>
+  <meta name="description" content="DM Top-up — Rechaje eFootball Coins, FC Mobile Points ak Call of Duty Mobile CP rapid an Ayiti avèk MonCash (+509 36971574), NatCash, Zelle ak USDT." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            obsidian: '#090c14',
+            surface: '#111625',
+            surfaceAlt: '#171e33',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #090c14;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
+
+    /* Subtle custom scrollbars for smooth desktop & mobile ergonomics */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b101d;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #24304f;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #354773;
+    }
+
+    .glass-nav {
+      background: rgba(9, 12, 20, 0.84);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .hero-glow {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(59, 130, 246, 0.16), transparent 45%),
+        radial-gradient(circle at 82% 24%, rgba(239, 68, 68, 0.14), transparent 42%),
+        radial-gradient(circle at 55% 78%, rgba(245, 158, 11, 0.12), transparent 48%);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-blue-500/30 selection:text-blue-200">
+  <!-- Non-blocking Toast / Notification Banner -->
+  <div id="toast-container" class="fixed top-20 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-2 sm:px-0"></div>
+
+  <!-- Top Navigation Bar -->
+  <header class="glass-nav sticky top-0 z-40 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <!-- Brand Logo -->
+      <a href="#top" class="flex items-center gap-2.5 group rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-amber-400 to-red-500 p-[1.5px] shadow-lg shadow-blue-500/15">
+          <div class="w-full h-full bg-surface rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span id="brand-name-display" class="font-extrabold text-base sm:text-lg tracking-tight text-white">DM Top-up</span>
+            <span class="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+              Livrezon Rapid
+            </span>
+          </div>
+          <p id="brand-tagline-display" class="text-[11px] text-slate-400 leading-none hidden sm:block">Coins • FC Points • CP</p>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden lg:flex items-center gap-5 text-sm font-medium text-slate-300" aria-label="Navigasyon prensipal">
+        <a href="#boutik" class="hover:text-white transition-colors py-2">Boutik Pakè</a>
+        <a href="#komann" class="hover:text-white transition-colors py-2">Pase Kòmand</a>
+        <a href="#peman-detay" class="hover:text-white transition-colors py-2">Mwayen Peman</a>
+        <a href="#reg-uid" class="hover:text-white transition-colors py-2">Règ & Move UID</a>
+      </nav>
+
+      <!-- Action Buttons: Currency Switcher, Admin Panel & WhatsApp Help -->
+      <div class="flex items-center gap-2">
+        <!-- Sleek HTG / USD Currency Toggle -->
+        <div class="inline-flex items-center rounded-xl bg-obsidian border border-slate-700/80 p-0.5" role="group" aria-label="Chwazi deviz">
+          <button
+            id="btn-curr-htg"
+            type="button"
+            data-currency="HTG"
+            class="curr-switch-btn px-2.5 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer"
+          >
+            HTG
+          </button>
+          <button
+            id="btn-curr-usd"
+            type="button"
+            data-currency="USD"
+            class="curr-switch-btn px-2.5 py-1.5 rounded-lg text-xs font-extrabold transition-all cursor-pointer"
+          >
+            USD $
+          </button>
+        </div>
+
+        <button
+          id="btn-toggle-admin"
+          type="button"
+          class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-surfaceAlt hover:bg-slate-800 text-slate-200 border border-slate-700/80 transition-all cursor-pointer active:scale-[0.98]"
+          aria-expanded="false"
+          aria-controls="admin-panel"
+        >
+          <svg class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span>Admin / Pri</span>
+        </button>
+
+        <a
+          id="header-whatsapp-link"
+          href="#komann"
+          class="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-md shadow-emerald-500/20 active:scale-[0.98]"
+        >
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="hidden sm:inline">Sipò WhatsApp</span>
+          <span class="sm:hidden">WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Order Receipt Modal (Pop-up Ticket after generating order) -->
+  <div id="receipt-modal" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="receipt-modal-title">
+    <div class="w-full max-w-lg rounded-3xl bg-surface border border-slate-700 p-6 sm:p-7 shadow-2xl space-y-5 relative animate-fadeIn">
+      <div class="flex items-start justify-between gap-3 pb-4 border-b border-slate-800">
+        <div>
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+            ✓ Tikè Kòmand Jenere
+          </span>
+          <h3 id="receipt-modal-title" class="text-xl font-extrabold text-white mt-1.5">Rezime Kòmand ou an Pare</h3>
+        </div>
+        <button id="btn-close-receipt-modal" type="button" class="p-2 rounded-xl bg-obsidian hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer" aria-label="Fèmen tikè a">
+          ✕
+        </button>
+      </div>
+
+      <div id="receipt-ticket-details" class="rounded-2xl bg-obsidian border border-slate-800 p-4 space-y-2.5 text-xs sm:text-sm">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+        <button
+          id="btn-modal-copy"
+          type="button"
+          class="w-full py-3 px-4 rounded-xl text-sm font-bold bg-surfaceAlt hover:bg-slate-800 text-white border border-slate-700 transition-colors cursor-pointer"
+        >
+          Kopye Tikè a
+        </button>
+        <a
+          id="btn-modal-whatsapp"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full py-3 px-4 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-center shadow-lg shadow-emerald-500/20 transition-all"
+        >
+          Voye Kòmand lan sou WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="top" class="flex-1 hero-glow">
+    <!-- Hero Banner -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6 sm:pt-12 sm:pb-10">
+      <div class="rounded-3xl bg-surface/90 border border-slate-800/90 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+        <div class="max-w-3xl relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/25 text-blue-300 text-xs font-semibold mb-4">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Sèvis Top-Up Jwèt Mobil • 24/7 Disponib
+          </div>
+          <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.15]">
+            Rechaje <span class="text-blue-400">eFootball</span>, <span class="text-amber-400">FC Mobile</span> &amp; <span class="text-red-400">Call of Duty</span> san tèt chaje.
+          </h1>
+          <p class="mt-3 sm:mt-4 text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+            Chwazi jwèt ou an, seleksyone pakè Coins, FC Points oswa CP ou bezwen an, antre ID/UID ou kòmsadwa, epi voye rezime kòmand ou dirèkteman sou WhatsApp oswa bay sipò a pou livrezon rapid.
+          </p>
+
+          <!-- Quick Feature Pills -->
+          <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs sm:text-sm">
+            <div class="flex items-center gap-2.5 bg-obsidian/70 border border-slate-800 rounded-2xl px-3.5 py-2.5">
+              <span class="w-7 h-7 rounded-lg bg-blue-500/15 text-blue-400 flex items-center justify-center font-bold shrink-0">1</span>
+              <span class="text-slate-200 font-medium">Chwazi jwèt &amp; pakè</span>
+            </div>
+            <div class="flex items-center gap-2.5 bg-obsidian/70 border border-slate-800 rounded-2xl px-3.5 py-2.5">
+              <span class="w-7 h-7 rounded-lg bg-amber-500/15 text-amber-400 flex items-center justify-center font-bold shrink-0">2</span>
+              <span class="text-slate-200 font-medium">Verifye UID / Koneksyon</span>
+            </div>
+            <div class="flex items-center gap-2.5 bg-obsidian/70 border border-slate-800 rounded-2xl px-3.5 py-2.5">
+              <span class="w-7 h-7 rounded-lg bg-red-500/15 text-red-400 flex items-center justify-center font-bold shrink-0">3</span>
+              <span class="text-slate-200 font-medium">Peye &amp; resevwa livrezon</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collapsible Admin / Price Customizer Panel -->
+    <section id="admin-panel" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+      <div class="rounded-3xl bg-surfaceAlt/95 border border-amber-500/35 p-5 sm:p-7 shadow-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-700/70">
+          <div>
+            <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400">
+              <span>Panèl Administratè &amp; Pèsonalizasyon</span>
+            </div>
+            <h2 class="text-xl font-bold text-white mt-1">Jere Pakè, Pri ak Nimewo WhatsApp Boutik la</h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-0.5">
+              Tout chanjman ou fè isit la sove otomatikman nan navigatè w la (localStorage).
+            </p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button
+              id="btn-reset-defaults"
+              type="button"
+              class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600/60 transition-colors cursor-pointer"
+            >
+              Reyajiste Valè Pa Defo DM Top-up
+            </button>
+            <button
+              id="btn-close-admin"
+              type="button"
+              class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-colors cursor-pointer"
+            >
+              Fèmen Panèl
+            </button>
+          </div>
+        </div>
+
+        <!-- Store Brand, WhatsApp, Tagline & Currency Settings -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 py-5 border-b border-slate-700/70">
+          <div>
+            <label for="admin-store-name" class="block text-xs font-semibold text-slate-300 mb-1.5">Non Boutik la</label>
+            <input
+              id="admin-store-name"
+              type="text"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              placeholder="DM Top-up"
+            />
+          </div>
+          <div>
+            <label for="admin-store-tagline" class="block text-xs font-semibold text-slate-300 mb-1.5">Slogan / Tagline</label>
+            <input
+              id="admin-store-tagline"
+              type="text"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              placeholder="Coins • FC Points • CP"
+            />
+          </div>
+          <div>
+            <label for="admin-whatsapp-number" class="block text-xs font-semibold text-slate-300 mb-1.5">WhatsApp Biznis (san +)</label>
+            <input
+              id="admin-whatsapp-number"
+              type="text"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              placeholder="50947934756"
+            />
+          </div>
+          <div>
+            <label for="admin-primary-currency" class="block text-xs font-semibold text-slate-300 mb-1.5">Deviz Prensipal</label>
+            <select
+              id="admin-primary-currency"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+            >
+              <option value="HTG">HTG (Goud Ayisyen)</option>
+              <option value="USD">USD ($ Ameriken)</option>
+            </select>
+          </div>
+          <div>
+            <label for="admin-exchange-rate" class="block text-xs font-semibold text-slate-300 mb-1.5">To Echanj (1 USD = ? HTG)</label>
+            <input
+              id="admin-exchange-rate"
+              type="number"
+              step="0.5"
+              min="1"
+              class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              placeholder="135"
+            />
+          </div>
+        </div>
+
+        <!-- Local Haitian & Digital Payment Accounts Configuration -->
+        <div class="py-5 border-b border-slate-700/70">
+          <h3 class="text-sm font-bold text-white mb-1">Kont Peman &amp; Detay Transfè</h3>
+          <p class="text-xs text-slate-400 mb-4">Modifye nimewo MonCash, NatCash, Zelle ak USDT TRC20 ou yo epi aktive/dezaktive sa w aksepte.</p>
+          <div id="admin-payment-settings" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Add New Bundle Form -->
+        <form id="admin-add-bundle-form" class="py-5 border-b border-slate-700/70">
+          <h3 class="text-sm font-bold text-white mb-3">Ajoute yon Nouvo Pakè</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            <div>
+              <label for="new-bundle-game" class="block text-xs text-slate-400 mb-1">Jwèt</label>
+              <select
+                id="new-bundle-game"
+                class="w-full px-3 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              >
+                <option value="efootball">eFootball</option>
+                <option value="fcmobile">FC Mobile</option>
+                <option value="codm">Call of Duty Mobile</option>
+              </select>
+            </div>
+            <div>
+              <label for="new-bundle-amount" class="block text-xs text-slate-400 mb-1">Kantite (Ex: 1040 Coins)</label>
+              <input
+                id="new-bundle-amount"
+                type="text"
+                required
+                placeholder="Ex: 1040 Coins"
+                class="w-full px-3 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              />
+            </div>
+            <div>
+              <label for="new-bundle-price" class="block text-xs text-slate-400 mb-1">Pri Baz an USD ($)</label>
+              <input
+                id="new-bundle-price"
+                type="number"
+                step="0.01"
+                min="0.01"
+                required
+                placeholder="11.49"
+                class="w-full px-3 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              />
+            </div>
+            <div>
+              <label for="new-bundle-tag" class="block text-xs text-slate-400 mb-1">Badj / Nòt (Si ou vle)</label>
+              <input
+                id="new-bundle-tag"
+                type="text"
+                placeholder="Ex: Popilè"
+                class="w-full px-3 py-2.5 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-amber-400"
+              />
+            </div>
+            <div class="flex items-end">
+              <button
+                type="submit"
+                class="w-full py-2.5 px-4 rounded-xl text-sm font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 transition-colors cursor-pointer"
+              >
+                + Ajoute Pakè
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Existing Bundles Quick Editor Table -->
+        <div class="pt-5">
+          <h3 class="text-sm font-bold text-white mb-3">Modifye Pri (an USD oswa HTG) oswa Efase Pakè ki Egziste</h3>
+          <div id="admin-bundles-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-80 overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Game Selector & Bundle Storefront Section -->
+    <section id="boutik" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-blue-400">Etap 1 • Seleksyon Jwèt</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Chwazi Jwèt &amp; Pakè Top-Up ou</h2>
+        </div>
+        <p id="active-game-subtitle" class="text-xs sm:text-sm text-slate-400"></p>
+      </div>
+
+      <!-- Game Selector Cards / Tabs -->
+      <div id="game-tabs" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8" role="tablist" aria-label="Chwazi jwèt">
+        <!-- Populated dynamically via JS for consistent state & accessibility -->
+      </div>
+
+      <!-- Active Game Info Banner -->
+      <div id="game-info-banner" class="rounded-2xl bg-surface/80 border border-slate-800 p-4 sm:p-5 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <!-- Populated dynamically -->
+      </div>
+
+      <!-- Bundle / Package Cards Grid -->
+      <div id="bundles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Populated dynamically -->
+      </div>
+    </section>
+
+    <!-- Checkout / Order Form & Live Order Summary Section -->
+    <section id="komann" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div class="mb-6">
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Etap 2 • Enfòmasyon Kòmand</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Ranpli Fòmilè Kòmand &amp; Jenere Rezime</h2>
+        <p class="text-sm text-slate-400 mt-1">
+          Verifye ID / UID kont jwèt ou an byen anvan ou voye kòmand lan.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- Left Column: Order Form (7 cols) -->
+        <form id="order-form" class="lg:col-span-7 rounded-3xl bg-surface border border-slate-800 p-5 sm:p-7 space-y-5 shadow-xl" novalidate>
+          <!-- Selected Package Readout -->
+          <div class="rounded-2xl bg-obsidian/80 border border-slate-800 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="text-[11px] uppercase tracking-wider font-bold text-slate-400">Pakè Chwazi</span>
+              <div id="form-selected-package" class="text-base sm:text-lg font-bold text-white mt-0.5">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+            <div class="text-left sm:text-right">
+              <span class="text-[11px] uppercase tracking-wider font-bold text-slate-400">Montan</span>
+              <div id="form-selected-price" class="text-xl font-extrabold text-amber-400 mt-0.5">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Player ID / UID & Nickname -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="player-uid" class="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                Player ID / UID / User ID <span class="text-red-400">*</span>
+              </label>
+              <input
+                id="player-uid"
+                name="playerUid"
+                type="text"
+                required
+                placeholder="Ex: 6812345678901234567"
+                class="w-full px-4 py-3 rounded-xl bg-obsidian border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+              />
+              <p id="uid-error" class="hidden text-xs text-red-400 mt-1">Tanpri antre Player ID / UID kont jwèt ou an.</p>
+            </div>
+
+            <div>
+              <label for="player-ign" class="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                Non nan Jwèt la (IGN / Nickname)
+              </label>
+              <input
+                id="player-ign"
+                name="playerIgn"
+                type="text"
+                placeholder="Ex: LakayPro99"
+                class="w-full px-4 py-3 rounded-xl bg-obsidian border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+              />
+            </div>
+          </div>
+
+          <!-- Server / Region & Delivery / Login Method -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="server-region" class="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                Sèvè / Rejyòn Kont lan
+              </label>
+              <select
+                id="server-region"
+                name="serverRegion"
+                class="w-full px-4 py-3 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+              >
+                <option value="Global / Amerik (NA/SA)">Global / Amerik (NA/SA)</option>
+                <option value="Ewòp / Mwayen Oryan">Ewòp / Mwayen Oryan</option>
+                <option value="Azi / Pasifik">Azi / Pasifik</option>
+                <option value="Pa gen sèvè espesifik (UID sèlman)">Pa gen sèvè espesifik (UID sèlman)</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="delivery-method" class="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                Metòd Livrezon / Koneksyon
+              </label>
+              <select
+                id="delivery-method"
+                name="deliveryMethod"
+                class="w-full px-4 py-3 rounded-xl bg-obsidian border border-slate-700 text-sm text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+              >
+                <option value="UID Top-Up Dirèk (Pa bezwen modpas)">UID Top-Up Dirèk (Pa bezwen modpas)</option>
+                <option value="Login Kont (Konami ID / Google / FB / Activision)">Login Kont (Konami ID / Google / FB / Activision)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Conditional Account Login Details when Login Top-Up is chosen -->
+          <div id="login-details-box" class="hidden rounded-2xl bg-amber-500/10 border border-amber-500/30 p-4 space-y-3">
+            <div class="flex items-start gap-2.5">
+              <svg class="w-5 h-5 text-amber-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <p class="text-xs text-amber-200 leading-relaxed">
+                <strong>Konsèy Sekirite:</strong> Si w chwazi Login Top-Up, mete sèlman platfòm koneksyon an ak idantifyan an (pa ekri modpas sansib si w prefere bay li prive sou WhatsApp apre konfimasyon peman).
+              </p>
+            </div>
+            <div>
+              <label for="login-account-info" class="block text-xs font-semibold text-amber-200 mb-1">
+                Tip Kont &amp; Imèl / ID Koneksyon
+              </label>
+              <input
+                id="login-account-info"
+                name="loginAccountInfo"
+                type="text"
+                placeholder="Ex: Konami ID / Google — jwè@egzanp.com"
+                class="w-full px-3.5 py-2.5 rounded-xl bg-obsidian border border-amber-500/30 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400"
+              />
+            </div>
+          </div>
+
+          <!-- Payment Method Selector -->
+          <div>
+            <span class="block text-xs sm:text-sm font-semibold text-slate-200 mb-2">
+              Chwazi Mwayen Peman <span class="text-red-400">*</span>
+            </span>
+            <div id="payment-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <!-- Populated dynamically with active payment methods (MonCash, NatCash, Zelle, USDT) -->
+            </div>
+
+            <!-- Dynamic Payment Account Details & 1-Click Copy Box -->
+            <div id="selected-payment-instructions" class="mt-3 rounded-2xl bg-obsidian/90 border border-blue-500/35 p-4 space-y-2.5">
+              <!-- Populated dynamically based on selected payment method -->
+            </div>
+          </div>
+
+          <!-- Required Transaction Reference / Sender Name -->
+          <div>
+            <label for="transaction-ref" class="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+              Referans Transaksyon / Nimewo Tranzaksyon / Non Moun ki Voye a <span class="text-red-400">*</span>
+            </label>
+            <input
+              id="transaction-ref"
+              name="transactionRef"
+              type="text"
+              required
+              placeholder="Ex: ID Tranzaksyon MonCash/NatCash #849201 oswa Non konplè w"
+              class="w-full px-4 py-3 rounded-xl bg-obsidian border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+            />
+            <p id="tx-ref-error" class="hidden text-xs text-red-400 mt-1">
+              Tanpri antre referans tranzaksyon an oswa non moun ki fè peman an pou verifikasyon rapid.
+            </p>
+          </div>
+
+          <!-- Optional Note -->
+          <div>
+            <label for="order-note" class="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+              Nòt Anplis (Si ou vle)
+            </label>
+            <input
+              id="order-note"
+              name="orderNote"
+              type="text"
+              placeholder="Ex: Mwen fèk voye kòb la sou MonCash..."
+              class="w-full px-4 py-3 rounded-xl bg-obsidian border border-slate-700 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+            />
+          </div>
+
+          <!-- Primary Submit Button -->
+          <button
+            type="submit"
+            class="w-full py-3.5 px-6 rounded-2xl text-sm sm:text-base font-extrabold bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/25 transition-all cursor-pointer active:scale-[0.99]"
+          >
+            Jenere Tikè &amp; Rezime Kòmand lan
+          </button>
+        </form>
+
+        <!-- Right Column: Live Order Summary & Ready-to-Send WhatsApp Message (5 cols) -->
+        <aside class="lg:col-span-5 rounded-3xl bg-surface border border-slate-800 p-5 sm:p-7 space-y-5 shadow-xl lg:sticky lg:top-24">
+          <div class="flex items-center justify-between gap-2">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400">Rezime Kòmand</span>
+              <h3 class="text-xl font-extrabold text-white mt-0.5">Mesaj Pare pou Voye</h3>
+            </div>
+            <span id="order-status-badge" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">
+              Brouyon
+            </span>
+          </div>
+
+          <!-- Formatted Message Preview Box -->
+          <div>
+            <label for="whatsapp-message-preview" class="block text-xs font-semibold text-slate-400 mb-2">
+              Tèks Kòmand lan (Ou ka modifye l si w bezwen)
+            </label>
+            <textarea
+              id="whatsapp-message-preview"
+              rows="11"
+              class="w-full p-4 rounded-2xl bg-obsidian border border-slate-700/90 text-xs sm:text-sm text-slate-100 leading-relaxed focus:outline-none focus:border-emerald-500"
+            ></textarea>
+          </div>
+
+          <!-- Action Buttons: Copy Message & Open WhatsApp -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button
+              id="btn-copy-message"
+              type="button"
+              class="w-full py-3 px-4 rounded-xl text-sm font-bold bg-surfaceAlt hover:bg-slate-800 text-white border border-slate-700 flex items-center justify-center gap-2 transition-colors cursor-pointer active:scale-[0.98]"
+            >
+              <svg class="w-4 h-4 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span>Kopye Mesaj la</span>
+            </button>
+
+            <a
+              id="btn-send-whatsapp"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full py-3 px-4 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-all active:scale-[0.98]"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              <span>Voye sou WhatsApp</span>
+            </a>
+          </div>
+
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Lè w klike sou <strong class="text-slate-200">Voye sou WhatsApp</strong>, mesaj kòmand ou an ap ouvri dirèkteman ak nimewo boutik la. Ou ka kole resi peman w lan nan menm konvèsasyon an.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Dedicated Mwayen Peman & Detay Transfè Section -->
+    <section id="peman-detay" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div class="rounded-3xl bg-surface/90 border border-slate-800 p-6 sm:p-8 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-800">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Peman Lokal &amp; Entènasyonal</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Mwayen Peman &amp; Detay Transfè</h2>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1">
+              Kopye nimewo oswa adrès peman w ap itilize a, fè transfè a, epi mete referans lan nan fòmilè kòmand lan.
+            </p>
+          </div>
+          <div id="exchange-rate-badge" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-obsidian border border-slate-700 text-xs font-semibold text-amber-300 shrink-0">
+            1 USD = 135 HTG
+          </div>
+        </div>
+
+        <div id="payment-methods-showcase" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
+          <!-- Populated dynamically with MonCash, NatCash, Zelle, USDT TRC20 cards + 1-click Copy -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Terms, Wrong UID & Refund Policy Section -->
+    <section id="reg-uid" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div class="rounded-3xl bg-surface/90 border border-slate-800 p-6 sm:p-8 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-slate-800">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-red-400">Transparans &amp; Sekirite</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Règ Boutik la, Move UID &amp; Ranbousman</h2>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/25 text-xs font-semibold text-red-300">
+            Li sa byen anvan w peye
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-6">
+          <!-- Policy Card 1: Wrong UID -->
+          <div class="rounded-2xl bg-obsidian/80 border border-slate-800 p-5">
+            <div class="w-9 h-9 rounded-xl bg-red-500/15 text-red-400 flex items-center justify-center font-extrabold mb-3">
+              !
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">Règleman sou Move UID / ID</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Kliyan an responsab pou l verifye <strong>Player ID / UID</strong> li anvan l voye kòmand lan. Si top-up la deja trete epi voye sou yon move UID kliyan an te antre, boutik la p ap ka rale Coins, FC Points oswa CP yo tounen ni fè ranbousman pou erè sa a.
+            </p>
+          </div>
+
+          <!-- Policy Card 2: Delivery & Processing -->
+          <div class="rounded-2xl bg-obsidian/80 border border-slate-800 p-5">
+            <div class="w-9 h-9 rounded-xl bg-blue-500/15 text-blue-400 flex items-center justify-center font-extrabold mb-3">
+              ⏱
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">Livrezon &amp; Verifikasyon Peman</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Livrezon kòmanse depi peman an konfime epi prèv la resevwa. Pifò kòmand UID fèt rapid, men pandan gwo evènman oswa antretyen sèvè jwèt la, livrezon ka pran yon ti tan anplis. Pa konekte sou kont ou pandan yon Login Top-Up ap fèt jiskaske nou di w li fini.
+            </p>
+          </div>
+
+          <!-- Policy Card 3: Refunds & Disputes -->
+          <div class="rounded-2xl bg-obsidian/80 border border-slate-800 p-5">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center font-extrabold mb-3">
+              ↺
+            </div>
+            <h3 class="text-base font-bold text-white mb-2">Ranbousman &amp; Kòmand Anile</h3>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Si nou pa kapab delivre pakè w la poutèt yon pwoblèm teknik ki soti bò kote nou apre peman an fin pase, n ap fè w yon ranbousman konplè oswa pwopoze w yon lòt opsyon. Yon fwa yon kòmand deja livrezon-fini, li pa ka anile ankò.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/90 bg-obsidian py-7 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-400">
+      <div>
+        <span id="footer-brand-name" class="font-bold text-slate-200">DM Top-up</span> — Boutik Top-Up pou eFootball, FC Mobile &amp; Call of Duty Mobile • WhatsApp: <span class="text-slate-200 font-semibold">+509 47934756</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="#boutik" class="hover:text-white transition-colors">Pakè</a>
+        <a href="#komann" class="hover:text-white transition-colors">Kòmand</a>
+        <a href="#reg-uid" class="hover:text-white transition-colors">Règ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /**
+     * Application State & Default Storefront Data for DM Top-up
+     * Pre-configured with DM Top-up branding, WhatsApp (+509 47934756),
+     * and MonCash (+509 36971574).
+     */
+    const STORAGE_KEY = 'dm_topup_store_v1';
+
+    const DEFAULT_STATE = {
+      storeName: 'DM Top-up',
+      tagline: 'Coins • FC Points • CP',
+      whatsappNumber: '50947934756',
+      currency: 'HTG',
+      exchangeRate: 135,
+      selectedGameId: 'efootball',
+      selectedBundleId: 'ef-1040',
+      selectedPaymentId: 'moncash',
+      paymentMethods: {
+        moncash: {
+          id: 'moncash',
+          name: 'MonCash (Digicel)',
+          shortBadge: 'Lokal • Ayiti',
+          accent: 'red',
+          enabled: true,
+          accountValue: '+509 36971574',
+          accountHolder: 'DM Top-up',
+          instructions: 'Voye montan egzak la sou nimewo MonCash +509 36971574 epi note ID tranzaksyon SMS ou resevwa a.',
+        },
+        natcash: {
+          id: 'natcash',
+          name: 'NatCash (Natcom)',
+          shortBadge: 'Lokal • Ayiti',
+          accent: 'blue',
+          enabled: true,
+          accountValue: '+509 4000-0000',
+          accountHolder: 'DM Top-up',
+          instructions: 'Fè transfè NatCash la sou nimewo sa a epi antre nimewo tranzaksyon an oswa non kont ou.',
+        },
+        zelle: {
+          id: 'zelle',
+          name: 'Zelle / Kat Bankè',
+          shortBadge: 'USA / Entènasyonal',
+          accent: 'indigo',
+          enabled: true,
+          accountValue: 'peman@dmtopup.com',
+          accountHolder: 'DM Top-up',
+          instructions: 'Voye peman Zelle la an USD ($) san ekri non jwèt nan memo a; mete non moun ki voye a anba a.',
+        },
+        usdt: {
+          id: 'usdt',
+          name: 'USDT (Rezo TRC20)',
+          shortBadge: 'Kripto • Rapid',
+          accent: 'emerald',
+          enabled: true,
+          accountValue: 'TX9k8mP2vQ7nL4wR8zJ3cB6yH5dF1aE9xK',
+          accountHolder: 'TRC20 Wallet (TRON)',
+          instructions: 'Itilize sèlman rezo TRON (TRC20) pou voye USDT an USD ($) epi kole TxID / Hash la.',
+        },
+      },
+      games: {
+        efootball: {
+          id: 'efootball',
+          name: 'eFootball',
+          currencyName: 'eFootball Coins',
+          accent: 'blue',
+          badgeText: 'Coins Top-Up',
+          tagline: 'Rechaje eFootball Coins pou Pack, Show Time & Big Time players.',
+          uidHint: 'Ou ka jwenn User ID / Owner ID ou nan meni Extra > User Information nan jwèt la.',
+        },
+        fcmobile: {
+          id: 'fcmobile',
+          name: 'FC Mobile',
+          currencyName: 'FC Points',
+          accent: 'amber',
+          badgeText: 'FC Points',
+          tagline: 'Voye FC Points rapid pou Star Pass, packs evènman ak amelyorasyon ekip ou.',
+          uidHint: 'Verifye User ID kont EA / FC Mobile ou an byen anvan ou soumèt kòmand lan.',
+        },
+        codm: {
+          id: 'codm',
+          name: 'Call of Duty Mobile',
+          currencyName: 'COD Points (CP)',
+          accent: 'red',
+          badgeText: 'CP Top-Up',
+          tagline: 'Jwenn CP pou Battle Pass, Lucky Draws, Mythic & Legendary blueprints.',
+          uidHint: 'Kopye Player ID (19 chif) ou nan pwofil ou (anwo a dwat nan lobby CODM).',
+        },
+      },
+      bundles: [
+        // eFootball Coins bundles (basePriceUsd)
+        { id: 'ef-130', gameId: 'efootball', amount: '130 Coins', priceUsd: 1.99, tag: 'Kòmanse' },
+        { id: 'ef-300', gameId: 'efootball', amount: '300 Coins', priceUsd: 3.99, tag: '' },
+        { id: 'ef-1040', gameId: 'efootball', amount: '1,040 Coins', priceUsd: 11.49, tag: 'Pi Popilè' },
+        { id: 'ef-2130', gameId: 'efootball', amount: '2,130 Coins', priceUsd: 22.50, tag: 'Gwo Pakè' },
+        { id: 'ef-3250', gameId: 'efootball', amount: '3,250 Coins', priceUsd: 33.00, tag: '' },
+        { id: 'ef-5700', gameId: 'efootball', amount: '5,700 Coins', priceUsd: 54.99, tag: 'VIP' },
+
+        // FC Mobile Points bundles
+        { id: 'fc-100', gameId: 'fcmobile', amount: '100 FC Points', priceUsd: 1.49, tag: 'Mini' },
+        { id: 'fc-520', gameId: 'fcmobile', amount: '520 FC Points', priceUsd: 6.49, tag: '' },
+        { id: 'fc-1070', gameId: 'fcmobile', amount: '1,070 FC Points', priceUsd: 12.25, tag: 'Pi Popilè' },
+        { id: 'fc-2200', gameId: 'fcmobile', amount: '2,200 FC Points', priceUsd: 24.50, tag: 'Star Pass+' },
+        { id: 'fc-5900', gameId: 'fcmobile', amount: '5,900 FC Points', priceUsd: 62.00, tag: '' },
+        { id: 'fc-12000', gameId: 'fcmobile', amount: '12,000 FC Points', priceUsd: 118.00, tag: 'Pro' },
+
+        // Call of Duty Mobile CP bundles
+        { id: 'cod-80', gameId: 'codm', amount: '80 CP', priceUsd: 1.35, tag: 'Kòmanse' },
+        { id: 'cod-420', gameId: 'codm', amount: '420 CP', priceUsd: 5.99, tag: 'Battle Pass' },
+        { id: 'cod-880', gameId: 'codm', amount: '880 CP', priceUsd: 11.75, tag: 'Pi Popilè' },
+        { id: 'cod-2400', gameId: 'codm', amount: '2,400 CP', priceUsd: 29.50, tag: '' },
+        { id: 'cod-5000', gameId: 'codm', amount: '5,000 CP', priceUsd: 58.00, tag: 'Draw Pack' },
+        { id: 'cod-10800', gameId: 'codm', amount: '10,800 CP', priceUsd: 115.00, tag: 'Mega' },
+      ],
+    };
+
+    let state = loadState();
+    let orderSubmitted = false;
+    let lastOrderId = generateOrderId();
+
+    function generateOrderId() {
+      const rand = Math.floor(1000 + Math.random() * 9000);
+      return `TL-${rand}`;
+    }
+
+    /**
+     * Safely loads saved state from localStorage or falls back to DEFAULT_STATE.
+     */
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return structuredClone(DEFAULT_STATE);
+        const parsed = JSON.parse(raw);
+        const merged = {
+          ...structuredClone(DEFAULT_STATE),
+          ...parsed,
+          games: parsed.games && Object.keys(parsed.games).length ? parsed.games : structuredClone(DEFAULT_STATE.games),
+          paymentMethods: parsed.paymentMethods
+            ? { ...structuredClone(DEFAULT_STATE.paymentMethods), ...parsed.paymentMethods }
+            : structuredClone(DEFAULT_STATE.paymentMethods),
+          bundles: Array.isArray(parsed.bundles) && parsed.bundles.length
+            ? parsed.bundles.map((b) => ({
+                ...b,
+                priceUsd: typeof b.priceUsd === 'number' ? b.priceUsd : Number(b.price) || 1.0,
+              }))
+            : structuredClone(DEFAULT_STATE.bundles),
+        };
+        if (!merged.exchangeRate || merged.exchangeRate <= 0) merged.exchangeRate = 135;
+        if (!['HTG', 'USD'].includes(merged.currency)) merged.currency = 'HTG';
+        return merged;
+      } catch (err) {
+        console.warn('Erè pandan lekti localStorage:', err);
+        return structuredClone(DEFAULT_STATE);
+      }
+    }
+
+    /**
+     * Persists current state to localStorage with safe error handling.
+     */
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (err) {
+        console.warn('Pa ka sove nan localStorage:', err);
+      }
+    }
+
+    /**
+     * Cross-browser / iFrame safe clipboard copy helper.
+     */
+    function copyTextToClipboard(text, successMsg = 'Kopye nan clipboard la!') {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      tempInput.setAttribute('readonly', '');
+      tempInput.style.position = 'fixed';
+      tempInput.style.opacity = '0';
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      tempInput.setSelectionRange(0, tempInput.value.length);
+
+      let copied = false;
+      try {
+        copied = document.execCommand('copy');
+      } catch (err) {
+        copied = false;
+      }
+      document.body.removeChild(tempInput);
+
+      if (copied) {
+        showToast(successMsg, 'success');
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(text)
+          .then(() => showToast(successMsg, 'success'))
+          .catch(() => showToast('Tanpri kopye tèks la manyèlman.', 'info'));
+      } else {
+        showToast('Tanpri kopye tèks la manyèlman.', 'info');
+      }
+    }
+
+    /**
+     * Converts base USD price into the active currency (HTG or USD) and formats cleanly.
+     */
+    function getConvertedAmount(priceUsd) {
+      const usd = Number(priceUsd) || 0;
+      const rate = Number(state.exchangeRate) || 135;
+      if (state.currency === 'HTG') {
+        return Math.round((usd * rate) / 5) * 5;
+      }
+      return usd;
+    }
+
+    function formatPrice(priceUsd) {
+      const usd = Number(priceUsd) || 0;
+      const rate = Number(state.exchangeRate) || 135;
+      if (state.currency === 'HTG') {
+        const htg = Math.round((usd * rate) / 5) * 5;
+        return `${htg.toLocaleString('en-US')} HTG`;
+      }
+      return `$${usd.toFixed(2)}`;
+    }
+
+    function formatDualPrice(priceUsd) {
+      const usd = Number(priceUsd) || 0;
+      const rate = Number(state.exchangeRate) || 135;
+      const htg = Math.round((usd * rate) / 5) * 5;
+      return state.currency === 'HTG'
+        ? `${htg.toLocaleString('en-US')} HTG (~$${usd.toFixed(2)})`
+        : `$${usd.toFixed(2)} (~${htg.toLocaleString('en-US')} HTG)`;
+    }
+
+    /**
+     * Displays a clean, non-blocking toast notification instead of alert().
+     */
+    function showToast(message, type = 'info') {
+// ... existing code ... -->
+    function getSelectedBundle() {
+      const gameBundles = state.bundles.filter((b) => b.gameId === state.selectedGameId);
+      let found = state.bundles.find((b) => b.id === state.selectedBundleId && b.gameId === state.selectedGameId);
+      if (!found && gameBundles.length > 0) {
+        found = gameBundles[0];
+        state.selectedBundleId = found.id;
+      }
+      return found || null;
+    }
+
+    function getActivePaymentMethods() {
+      const methods = Object.values(state.paymentMethods || {}).filter((m) => m.enabled);
+      return methods.length > 0 ? methods : Object.values(state.paymentMethods || {});
+    }
+
+    function getSelectedPaymentMethod() {
+      const activeList = getActivePaymentMethods();
+      let found = activeList.find((m) => m.id === state.selectedPaymentId);
+      if (!found && activeList.length > 0) {
+        found = activeList[0];
+        state.selectedPaymentId = found.id;
+      }
+      return found;
+    }
+
+    /**
+     * Updates the top navbar HTG / USD currency toggle buttons and exchange rate badge.
+     */
+    function renderCurrencyToggle() {
+      document.querySelectorAll('.curr-switch-btn').forEach((btn) => {
+        const isCurrent = btn.getAttribute('data-currency') === state.currency;
+        btn.className = isCurrent
+          ? 'curr-switch-btn px-2.5 py-1.5 rounded-lg text-xs font-extrabold bg-amber-400 text-slate-950 shadow transition-all cursor-pointer'
+          : 'curr-switch-btn px-2.5 py-1.5 rounded-lg text-xs font-extrabold text-slate-300 hover:text-white transition-all cursor-pointer';
+      });
+
+      const rateBadge = document.getElementById('exchange-rate-badge');
+      if (rateBadge) {
+        rateBadge.textContent = `To Echanj: 1 USD = ${Number(state.exchangeRate).toLocaleString('en-US')} HTG`;
+      }
+    }
+
+    /**
+     * Renders the 3 Game Selector tabs/cards.
+     */
+    function renderGameTabs() {
+// ... existing code ... -->
+              <div class="mt-5 pt-4 border-t border-slate-800/90 flex items-center justify-between gap-2">
+                <div>
+                  <span class="block text-[10px] uppercase tracking-wider text-slate-400">Pri (${escapeHtml(state.currency)})</span>
+                  <span class="text-lg font-extrabold ${styles.priceClass}">
+                    ${formatPrice(bundle.priceUsd)}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  data-select-bundle="${bundle.id}"
+                  class="select-bundle-btn px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-emerald-500 text-slate-950'
+                      : styles.buttonClass
+                  }"
+                >
+                  ${isSelected ? '✓ Chwazi' : 'Chwazi Pakè'}
+                </button>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+
+      grid.querySelectorAll('.bundle-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          const bId = card.getAttribute('data-bundle-id');
+          if (bId) {
+            state.selectedBundleId = bId;
+            orderSubmitted = false;
+            const preview = document.getElementById('whatsapp-message-preview');
+            if (preview) preview.dataset.userEdited = 'false';
+            saveState();
+            renderFormReadoutAndMessage();
+            renderBundlesGrid();
+          }
+        });
+      });
+    }
+
+    /**
+     * Renders payment method selector buttons inside the checkout form and the
+     * selected payment method's transfer account details + 1-click Copy button.
+     */
+    function renderPaymentSelectorAndInstructions() {
+      const container = document.getElementById('payment-options');
+      const instructionsBox = document.getElementById('selected-payment-instructions');
+      const activeMethods = getActivePaymentMethods();
+      const selected = getSelectedPaymentMethod();
+
+      if (container) {
+        container.innerHTML = activeMethods
+          .map((m) => {
+            const isSelected = selected && selected.id === m.id;
+            return `
+              <button
+                type="button"
+                data-payment-id="${m.id}"
+                class="payment-btn flex flex-col items-start p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                  isSelected
+                    ? 'border-blue-500 bg-blue-500/15 ring-2 ring-blue-500/25'
+                    : 'border-slate-700 bg-obsidian hover:border-slate-500'
+                }"
+              >
+                <div class="w-full flex items-center justify-between gap-2">
+                  <span class="text-sm font-bold text-white">${escapeHtml(m.name)}</span>
+                  <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-slate-800 text-slate-300">
+                    ${escapeHtml(m.shortBadge)}
+                  </span>
+                </div>
+                <span class="text-[11px] text-slate-400 mt-1 truncate w-full">${escapeHtml(m.accountValue)}</span>
+              </button>
+            `;
+          })
+          .join('');
+
+        container.querySelectorAll('.payment-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const pId = btn.getAttribute('data-payment-id');
+            if (!pId) return;
+            state.selectedPaymentId = pId;
+            saveState();
+            const preview = document.getElementById('whatsapp-message-preview');
+            if (preview) preview.dataset.userEdited = 'false';
+            renderPaymentSelectorAndInstructions();
+            renderFormReadoutAndMessage();
+          });
+        });
+      }
+
+      if (instructionsBox && selected) {
+        instructionsBox.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="min-w-0">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-blue-400">
+                Voye Peman an sou ${escapeHtml(selected.name)}
+              </span>
+              <div class="text-sm sm:text-base font-extrabold text-white mt-0.5 break-all">
+                ${escapeHtml(selected.accountValue)}
+              </div>
+              <div class="text-xs text-slate-400 mt-0.5">
+                Non Kont: <strong class="text-slate-200">${escapeHtml(selected.accountHolder)}</strong>
+              </div>
+            </div>
+            <button
+              type="button"
+              id="btn-copy-selected-payment"
+              class="px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white shrink-0 transition-colors cursor-pointer"
+            >
+              Kopye Nimewo / Adrès
+            </button>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed pt-2 border-t border-slate-800/80">
+            ${escapeHtml(selected.instructions)}
+          </p>
+        `;
+
+        document.getElementById('btn-copy-selected-payment')?.addEventListener('click', () => {
+          copyTextToClipboard(selected.accountValue, `${selected.name} kopye: ${selected.accountValue}`);
+        });
+      }
+    }
+
+    /**
+     * Renders the dedicated "Mwayen Peman & Detay Transfè" showcase section.
+     */
+    function renderPaymentShowcase() {
+      const showcase = document.getElementById('payment-methods-showcase');
+      if (!showcase) return;
+
+      const activeMethods = getActivePaymentMethods();
+      const accentBorders = {
+        red: 'border-red-500/35',
+        blue: 'border-blue-500/35',
+        indigo: 'border-indigo-500/35',
+        emerald: 'border-emerald-500/35',
+      };
+
+      showcase.innerHTML = activeMethods
+        .map((m) => {
+          const borderCls = accentBorders[m.accent] || 'border-slate-800';
+          return `
+            <div class="rounded-2xl bg-obsidian/90 border ${borderCls} p-5 flex flex-col justify-between gap-4">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-2">
+                  <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">
+                    ${escapeHtml(m.shortBadge)}
+                  </span>
+                </div>
+                <h3 class="text-base sm:text-lg font-extrabold text-white">${escapeHtml(m.name)}</h3>
+                <div class="mt-3 p-3 rounded-xl bg-surface border border-slate-800">
+                  <span class="block text-[10px] uppercase tracking-wider text-slate-400">Nimewo / Adrès</span>
+                  <span class="block text-sm font-bold text-amber-300 mt-0.5 break-all">${escapeHtml(m.accountValue)}</span>
+                  <span class="block text-xs text-slate-400 mt-1">Non: <strong class="text-slate-200">${escapeHtml(m.accountHolder)}</strong></span>
+                </div>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                  ${escapeHtml(m.instructions)}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                data-showcase-copy="${escapeHtml(m.accountValue)}"
+                data-showcase-label="${escapeHtml(m.name)}"
+                class="showcase-copy-btn w-full py-2.5 px-3.5 rounded-xl text-xs font-bold bg-surfaceAlt hover:bg-slate-800 text-white border border-slate-700 transition-colors cursor-pointer"
+              >
+                Kopye Nimewo / Adrès
+              </button>
+            </div>
+          `;
+        })
+        .join('');
+
+      showcase.querySelectorAll('.showcase-copy-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-showcase-copy') || '';
+          const lbl = btn.getAttribute('data-showcase-label') || 'Kont';
+          copyTextToClipboard(val, `${lbl} kopye: ${val}`);
+        });
+      });
+    }
+
+    /**
+     * Updates the form's selected package readout and generates the WhatsApp order summary.
+     */
+    function renderFormReadoutAndMessage() {
+      const game = getSelectedGame();
+      const bundle = getSelectedBundle();
+      const payment = getSelectedPaymentMethod();
+
+      const pkgDisplay = document.getElementById('form-selected-package');
+      const priceDisplay = document.getElementById('form-selected-price');
+      const msgTextarea = document.getElementById('whatsapp-message-preview');
+      const waBtn = document.getElementById('btn-send-whatsapp');
+      const headerWaLink = document.getElementById('header-whatsapp-link');
+      const statusBadge = document.getElementById('order-status-badge');
+
+      const uidInput = document.getElementById('player-uid');
+      const ignInput = document.getElementById('player-ign');
+      const serverInput = document.getElementById('server-region');
+      const methodInput = document.getElementById('delivery-method');
+      const loginInfoInput = document.getElementById('login-account-info');
+      const txRefInput = document.getElementById('transaction-ref');
+      const noteInput = document.getElementById('order-note');
+
+      const uidVal = (uidInput?.value || '').trim() || '[Antre UID / ID w]';
+      const ignVal = (ignInput?.value || '').trim() || 'Pa espesifye';
+      const serverVal = serverInput?.value || 'Global';
+      const methodVal = methodInput?.value || 'UID Top-Up Dirèk';
+      const loginInfoVal = (loginInfoInput?.value || '').trim();
+      const txRefVal = (txRefInput?.value || '').trim() || '[Antre Referans Peman w]';
+      const noteVal = (noteInput?.value || '').trim();
+
+      if (pkgDisplay) {
+        pkgDisplay.textContent = bundle
+          ? `${game.name} — ${bundle.amount}`
+          : `${game.name} — Pa gen pakè chwazi`;
+      }
+
+      if (priceDisplay) {
+        priceDisplay.textContent = bundle ? formatDualPrice(bundle.priceUsd) : formatPrice(0);
+      }
+
+      const lines = [
+        `🎮 *TIKÈ KÒMAND #${lastOrderId} — ${state.storeName.toUpperCase()}*`,
+        `━━━━━━━━━━━━━━━━━━━━`,
+        `🕹️ *Jwèt:* ${game.name}`,
+        `📦 *Pakè:* ${bundle ? bundle.amount : 'Pa chwazi'}`,
+        `💰 *Total (${state.currency}):* ${bundle ? formatDualPrice(bundle.priceUsd) : formatPrice(0)}`,
+        `🆔 *Player ID / UID:* ${uidVal}`,
+        `👤 *Non nan Jwèt (IGN):* ${ignVal}`,
+        `🌍 *Sèvè / Rejyòn:* ${serverVal}`,
+        `🚚 *Metòd Livrezon:* ${methodVal}`,
+      ];
+
+      if (methodVal.toLowerCase().includes('login') && loginInfoVal) {
+        lines.push(`🔐 *Kont Koneksyon:* ${loginInfoVal}`);
+      }
+
+      lines.push(`💳 *Mwayen Peman:* ${payment ? payment.name : 'MonCash'}`);
+      lines.push(`🧾 *Referans Transaksyon:* ${txRefVal}`);
+
+      if (noteVal) {
+        lines.push(`📝 *Nòt:* ${noteVal}`);
+      }
+
+      lines.push(`━━━━━━━━━━━━━━━━━━━━`);
+      lines.push(`Mwen konfime mwen verifye UID mwen an epi mwen voye prèv peman an.`);
+
+      const generatedText = lines.join('\n');
+
+      // Only overwrite textarea automatically if user hasn't manually edited it after generation
+      if (msgTextarea && msgTextarea.dataset.userEdited !== 'true') {
+        msgTextarea.value = generatedText;
+      }
+
+      const activeMessage = msgTextarea ? msgTextarea.value : generatedText;
+      const cleanPhone = (state.whatsappNumber || '50947934756').replace(/\D/g, '');
+      const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(activeMessage)}`;
+
+      if (waBtn) waBtn.href = waUrl;
+      if (headerWaLink) {
+        headerWaLink.href = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(`Bonjou ${state.storeName}, mwen bezwen èd ak yon kòmand top-up.`)}`;
+        headerWaLink.target = '_blank';
+        headerWaLink.rel = 'noopener noreferrer';
+      }
+
+      if (statusBadge) {
+        if (orderSubmitted) {
+          statusBadge.textContent = `Tikè #${lastOrderId} Pare`;
+          statusBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30';
+        } else {
+          statusBadge.textContent = 'Brouyon';
+          statusBadge.className = 'px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700';
+        }
+      }
+    }
+
+    /**
+     * Renders the Admin panel inputs, payment method editor, and editable list of bundles.
+     */
+    function renderAdminPanel() {
+      const storeNameInput = document.getElementById('admin-store-name');
+      const taglineInput = document.getElementById('admin-store-tagline');
+      const waInput = document.getElementById('admin-whatsapp-number');
+      const primaryCurrSelect = document.getElementById('admin-primary-currency');
+      const rateInput = document.getElementById('admin-exchange-rate');
+      const paymentSettingsEl = document.getElementById('admin-payment-settings');
+      const listEl = document.getElementById('admin-bundles-list');
+
+      if (storeNameInput) storeNameInput.value = state.storeName;
+      if (taglineInput) taglineInput.value = state.tagline || 'Coins • FC Points • CP';
+      if (waInput) waInput.value = state.whatsappNumber;
+      if (primaryCurrSelect) primaryCurrSelect.value = state.currency;
+      if (rateInput) rateInput.value = state.exchangeRate;
+
+      if (paymentSettingsEl) {
+        paymentSettingsEl.innerHTML = Object.values(state.paymentMethods)
+          .map((pm) => {
+            return `
+              <div class="rounded-2xl bg-obsidian/90 border border-slate-700/80 p-4 space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-sm font-bold text-white">${escapeHtml(pm.name)}</span>
+                  <label class="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      data-pm-toggle="${pm.id}"
+                      ${pm.enabled ? 'checked' : ''}
+                      class="pm-toggle-checkbox rounded accent-amber-400 w-4 h-4 cursor-pointer"
+                    />
+                    <span>Aktive</span>
+                  </label>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label class="block text-[11px] text-slate-400 mb-1">Nimewo / Imèl / Adrès</label>
+                    <input
+                      type="text"
+                      data-pm-field="accountValue"
+                      data-pm-id="${pm.id}"
+                      value="${escapeHtml(pm.accountValue)}"
+                      class="pm-field-input w-full px-3 py-2 rounded-xl bg-surface border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-[11px] text-slate-400 mb-1">Non Kont lan</label>
+                    <input
+                      type="text"
+                      data-pm-field="accountHolder"
+                      data-pm-id="${pm.id}"
+                      value="${escapeHtml(pm.accountHolder)}"
+                      class="pm-field-input w-full px-3 py-2 rounded-xl bg-surface border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+                </div>
+              </div>
+            `;
+          })
+          .join('');
+
+        paymentSettingsEl.querySelectorAll('.pm-toggle-checkbox').forEach((cb) => {
+          cb.addEventListener('change', () => {
+            const pmId = cb.getAttribute('data-pm-toggle');
+            if (pmId && state.paymentMethods[pmId]) {
+              state.paymentMethods[pmId].enabled = cb.checked;
+              saveState();
+              renderPaymentSelectorAndInstructions();
+              renderPaymentShowcase();
+              renderFormReadoutAndMessage();
+            }
+          });
+        });
+
+        paymentSettingsEl.querySelectorAll('.pm-field-input').forEach((inp) => {
+          inp.addEventListener('input', () => {
+            const pmId = inp.getAttribute('data-pm-id');
+            const field = inp.getAttribute('data-pm-field');
+            if (pmId && field && state.paymentMethods[pmId]) {
+              state.paymentMethods[pmId][field] = inp.value;
+              saveState();
+              renderPaymentSelectorAndInstructions();
+              renderPaymentShowcase();
+            }
+          });
+        });
+      }
+
+      if (!listEl) return;
+
+      listEl.innerHTML = state.bundles
+        .map((b) => {
+          const gameName = state.games[b.gameId]?.name || b.gameId;
+          const displayVal = state.currency === 'HTG'
+            ? getConvertedAmount(b.priceUsd)
+            : Number(b.priceUsd).toFixed(2);
+          return `
+            <div class="rounded-2xl bg-obsidian/90 border border-slate-700/80 p-3.5 flex flex-col justify-between gap-3">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">${escapeHtml(gameName)}</span>
+                  <div class="text-sm font-bold text-white mt-0.5">${escapeHtml(b.amount)}</div>
+                </div>
+                <span class="text-[11px] font-semibold text-slate-400">${formatPrice(b.priceUsd)}</span>
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-slate-300">${escapeHtml(state.currency)}</span>
+                  <input
+                    type="number"
+                    step="${state.currency === 'HTG' ? '5' : '0.01'}"
+                    min="0.01"
+                    data-edit-price-id="${b.id}"
+                    value="${displayVal}"
+                    aria-label="Pri pou ${escapeHtml(b.amount)}"
+                    class="admin-price-input w-24 px-2.5 py-1.5 rounded-lg bg-surface border border-slate-600 text-xs font-bold text-amber-400 focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+                <button
+                  type="button"
+                  data-delete-bundle-id="${b.id}"
+                  class="admin-delete-btn px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-red-500/15 hover:bg-red-500/25 text-red-300 border border-red-500/30 transition-colors cursor-pointer"
+                >
+                  Efase
+                </button>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+
+      listEl.querySelectorAll('.admin-price-input').forEach((input) => {
+        input.addEventListener('change', () => {
+          const id = input.getAttribute('data-edit-price-id');
+          const entered = parseFloat(input.value);
+          if (!isNaN(entered) && entered > 0) {
+            const target = state.bundles.find((item) => item.id === id);
+            if (target) {
+              target.priceUsd = state.currency === 'HTG'
+                ? entered / (Number(state.exchangeRate) || 135)
+                : entered;
+              saveState();
+              renderBundlesGrid();
+              renderFormReadoutAndMessage();
+              renderAdminPanel();
+              showToast(`Pri "${target.amount}" mete ajou (${formatPrice(target.priceUsd)}).`, 'success');
+            }
+          } else {
+            showToast('Tanpri antre yon pri ki pi gran pase 0.', 'error');
+            renderAdminPanel();
+          }
+        });
+      });
+
+      listEl.querySelectorAll('.admin-delete-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-delete-bundle-id');
+          const idx = state.bundles.findIndex((item) => item.id === id);
+          if (idx !== -1) {
+            const removed = state.bundles[idx];
+            state.bundles.splice(idx, 1);
+            if (state.selectedBundleId === id) {
+              const fallback = state.bundles.find((b) => b.gameId === state.selectedGameId) || state.bundles[0];
+              state.selectedBundleId = fallback ? fallback.id : '';
+            }
+            saveState();
+            renderAll();
+            showToast(`Pakè "${removed.amount}" efase.`, 'info');
+          }
+        });
+      });
+    }
+
+    /**
+     * Updates brand labels across header and footer.
+     */
+    function renderBrandLabels() {
+      const brandDisplay = document.getElementById('brand-name-display');
+      const taglineDisplay = document.getElementById('brand-tagline-display');
+      const footerBrand = document.getElementById('footer-brand-name');
+      if (brandDisplay) brandDisplay.textContent = state.storeName;
+      if (taglineDisplay) taglineDisplay.textContent = state.tagline || 'Coins • FC Points • CP';
+      if (footerBrand) footerBrand.textContent = state.storeName;
+      document.title = `${state.storeName} — eFootball, FC Mobile & Call of Duty Mobile`;
+    }
+
+    /**
+     * Master render routine.
+     */
+    function renderAll() {
+      renderBrandLabels();
+      renderCurrencyToggle();
+      renderGameTabs();
+      renderGameInfoBanner();
+      renderBundlesGrid();
+      renderPaymentSelectorAndInstructions();
+      renderPaymentShowcase();
+      renderFormReadoutAndMessage();
+      renderAdminPanel();
+    }
+
+    /**
+     * Opens the formatted Order Ticket Modal with 1-click WhatsApp checkout & copy.
+     */
+    function openReceiptModal() {
+      const modal = document.getElementById('receipt-modal');
+      const detailsEl = document.getElementById('receipt-ticket-details');
+      const modalWaBtn = document.getElementById('btn-modal-whatsapp');
+      const msgTextarea = document.getElementById('whatsapp-message-preview');
+
+      const game = getSelectedGame();
+      const bundle = getSelectedBundle();
+      const payment = getSelectedPaymentMethod();
+      const uidVal = (document.getElementById('player-uid')?.value || '').trim();
+      const txRefVal = (document.getElementById('transaction-ref')?.value || '').trim();
+
+      if (detailsEl) {
+        detailsEl.innerHTML = `
+          <div class="flex justify-between gap-2 py-1 border-b border-slate-800/80">
+            <span class="text-slate-400">Nimewo Kòmand:</span>
+            <span class="font-extrabold text-amber-400">#${escapeHtml(lastOrderId)}</span>
+          </div>
+          <div class="flex justify-between gap-2 py-1 border-b border-slate-800/80">
+            <span class="text-slate-400">Jwèt &amp; Pakè:</span>
+            <span class="font-bold text-white">${escapeHtml(game.name)} — ${escapeHtml(bundle ? bundle.amount : '')}</span>
+          </div>
+          <div class="flex justify-between gap-2 py-1 border-b border-slate-800/80">
+            <span class="text-slate-400">Montan Total:</span>
+            <span class="font-extrabold text-emerald-400">${bundle ? formatDualPrice(bundle.priceUsd) : ''}</span>
+          </div>
+          <div class="flex justify-between gap-2 py-1 border-b border-slate-800/80">
+            <span class="text-slate-400">Player ID / UID:</span>
+            <span class="font-bold text-white">${escapeHtml(uidVal)}</span>
+          </div>
+          <div class="flex justify-between gap-2 py-1 border-b border-slate-800/80">
+            <span class="text-slate-400">Mwayen Peman:</span>
+            <span class="font-bold text-blue-300">${escapeHtml(payment ? payment.name : '')}</span>
+          </div>
+          <div class="flex justify-between gap-2 py-1">
+            <span class="text-slate-400">Referans Transaksyon:</span>
+            <span class="font-bold text-white text-right">${escapeHtml(txRefVal)}</span>
+          </div>
+        `;
+      }
+
+      const cleanPhone = (state.whatsappNumber || '50947934756').replace(/\D/g, '');
+      const text = msgTextarea ? msgTextarea.value : '';
+      if (modalWaBtn) {
+        modalWaBtn.href = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`;
+      }
+
+      modal?.classList.remove('hidden');
+    }
+
+    /**
+     * Toggles visibility of the Admin / Customizer panel.
+     */
+    function toggleAdminPanel(forceOpen = null) {
+// ... existing code ... -->
+    /**
+     * Escapes HTML special characters to prevent XSS when rendering user inputs.
+     */
+    function escapeHtml(str) {
+      return String(str ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    /**
+     * Wires up all interactive form, currency toggle, payment, admin, modal, and clipboard listeners.
+     */
+    function bindEvents() {
+      // Navbar HTG / USD currency switcher
+      document.querySelectorAll('.curr-switch-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const curr = btn.getAttribute('data-currency');
+          if (curr && ['HTG', 'USD'].includes(curr)) {
+            state.currency = curr;
+            const preview = document.getElementById('whatsapp-message-preview');
+            if (preview) preview.dataset.userEdited = 'false';
+            saveState();
+            renderAll();
+            showToast(`Pri yo afiche an ${curr === 'HTG' ? 'Goud Ayisyen (HTG)' : 'Dola Ameriken (USD $)'}.`, 'info');
+          }
+        });
+      });
+
+      // Receipt modal controls
+      document.getElementById('btn-close-receipt-modal')?.addEventListener('click', () => {
+        document.getElementById('receipt-modal')?.classList.add('hidden');
+      });
+      document.getElementById('receipt-modal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'receipt-modal') {
+          document.getElementById('receipt-modal')?.classList.add('hidden');
+        }
+      });
+      document.getElementById('btn-modal-copy')?.addEventListener('click', () => {
+        const msg = document.getElementById('whatsapp-message-preview')?.value || '';
+        copyTextToClipboard(msg, 'Tikè kòmand lan kopye!');
+      });
+
+      // Admin panel toggle & close
+      document.getElementById('btn-toggle-admin')?.addEventListener('click', () => toggleAdminPanel());
+      document.getElementById('btn-close-admin')?.addEventListener('click', () => toggleAdminPanel(false));
+
+      // Reset default state
+      document.getElementById('btn-reset-defaults')?.addEventListener('click', () => {
+        state = structuredClone(DEFAULT_STATE);
+        orderSubmitted = false;
+        saveState();
+        renderAll();
+        showToast('Pri ak pakè yo reyajiste jan yo te ye pa defo.', 'success');
+      });
+
+      // Store settings live update
+      document.getElementById('admin-store-name')?.addEventListener('input', (e) => {
+        state.storeName = e.target.value.trim() || 'DM Top-up';
+        saveState();
+        renderBrandLabels();
+        renderFormReadoutAndMessage();
+      });
+
+      document.getElementById('admin-store-tagline')?.addEventListener('input', (e) => {
+        state.tagline = e.target.value.trim() || 'Coins • FC Points • CP';
+        saveState();
+        renderBrandLabels();
+      });
+
+      document.getElementById('admin-whatsapp-number')?.addEventListener('input', (e) => {
+        state.whatsappNumber = e.target.value.replace(/[^\d]/g, '') || '50947934756';
+        saveState();
+        renderFormReadoutAndMessage();
+      });
+
+      document.getElementById('admin-primary-currency')?.addEventListener('change', (e) => {
+        state.currency = e.target.value === 'USD' ? 'USD' : 'HTG';
+        const preview = document.getElementById('whatsapp-message-preview');
+        if (preview) preview.dataset.userEdited = 'false';
+        saveState();
+        renderAll();
+      });
+
+      document.getElementById('admin-exchange-rate')?.addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value);
+        if (!isNaN(val) && val > 0) {
+          state.exchangeRate = val;
+          const preview = document.getElementById('whatsapp-message-preview');
+          if (preview) preview.dataset.userEdited = 'false';
+          saveState();
+          renderCurrencyToggle();
+          renderBundlesGrid();
+          renderFormReadoutAndMessage();
+          renderAdminPanel();
+        }
+      });
+
+      // Add new bundle form (accepts USD base price)
+      document.getElementById('admin-add-bundle-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const gameId = document.getElementById('new-bundle-game')?.value || 'efootball';
+        const amount = (document.getElementById('new-bundle-amount')?.value || '').trim();
+        const priceRaw = parseFloat(document.getElementById('new-bundle-price')?.value || '0');
+        const tag = (document.getElementById('new-bundle-tag')?.value || '').trim();
+
+        if (!amount || isNaN(priceRaw) || priceRaw <= 0) {
+          showToast('Tanpri mete non pakè a ak yon pri ki valid.', 'error');
+          return;
+        }
+
+        const newId = `${gameId}-${Date.now().toString(36)}`;
+        state.bundles.push({
+          id: newId,
+          gameId,
+          amount,
+          priceUsd: priceRaw,
+          tag,
+        });
+
+        state.selectedGameId = gameId;
+        state.selectedBundleId = newId;
+        saveState();
+        e.target.reset();
+        renderAll();
+        showToast(`Pakè "${amount}" ajoute avèk siksè!`, 'success');
+      });
+
+      // Delivery method toggles optional account login details box
+      const deliverySelect = document.getElementById('delivery-method');
+      const loginBox = document.getElementById('login-details-box');
+      deliverySelect?.addEventListener('change', () => {
+        const isLogin = deliverySelect.value.toLowerCase().includes('login');
+        loginBox?.classList.toggle('hidden', !isLogin);
+        const preview = document.getElementById('whatsapp-message-preview');
+        if (preview) preview.dataset.userEdited = 'false';
+        renderFormReadoutAndMessage();
+      });
+
+      // Live updates from form fields into WhatsApp summary
+      ['player-uid', 'player-ign', 'server-region', 'login-account-info', 'transaction-ref', 'order-note'].forEach((id) => {
+        document.getElementById(id)?.addEventListener('input', () => {
+          const preview = document.getElementById('whatsapp-message-preview');
+          if (preview) preview.dataset.userEdited = 'false';
+          renderFormReadoutAndMessage();
+        });
+      });
+
+      // Track manual edits in the message textarea and keep WhatsApp link synced
+      const msgTextarea = document.getElementById('whatsapp-message-preview');
+      msgTextarea?.addEventListener('input', () => {
+        msgTextarea.dataset.userEdited = 'true';
+        const cleanPhone = (state.whatsappNumber || '50947934756').replace(/\D/g, '');
+        const waBtn = document.getElementById('btn-send-whatsapp');
+        if (waBtn) {
+          waBtn.href = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msgTextarea.value)}`;
+        }
+      });
+
+      // Order form submission validation & ticket modal
+      document.getElementById('order-form')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const uidInput = document.getElementById('player-uid');
+        const uidError = document.getElementById('uid-error');
+        const txInput = document.getElementById('transaction-ref');
+        const txError = document.getElementById('tx-ref-error');
+
+        const uidVal = (uidInput?.value || '').trim();
+        const txVal = (txInput?.value || '').trim();
+
+        let hasError = false;
+
+        if (!uidVal) {
+          uidError?.classList.remove('hidden');
+          uidInput?.classList.add('border-red-500');
+          if (!hasError) uidInput?.focus();
+          hasError = true;
+        } else {
+          uidError?.classList.add('hidden');
+          uidInput?.classList.remove('border-red-500');
+        }
+
+        if (!txVal) {
+          txError?.classList.remove('hidden');
+          txInput?.classList.add('border-red-500');
+          if (!hasError) txInput?.focus();
+          hasError = true;
+        } else {
+          txError?.classList.add('hidden');
+          txInput?.classList.remove('border-red-500');
+        }
+
+        if (hasError) {
+          showToast('Tanpri ranpli Player ID/UID ak Referans Transaksyon an.', 'error');
+          return;
+        }
+
+        lastOrderId = generateOrderId();
+        orderSubmitted = true;
+        if (msgTextarea) msgTextarea.dataset.userEdited = 'false';
+        renderFormReadoutAndMessage();
+        openReceiptModal();
+      });
+
+      // Copy message to clipboard
+      document.getElementById('btn-copy-message')?.addEventListener('click', () => {
+        const textarea = document.getElementById('whatsapp-message-preview');
+        if (!textarea) return;
+        copyTextToClipboard(textarea.value, 'Mesaj kòmand lan kopye nan clipboard la!');
+      });
+    }
+
+    // Initialize storefront on DOM load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderAll();
+      bindEvents();
+    });
+  </script>
+</body>
+</html>
